@@ -9,32 +9,37 @@ from Travel.User.models import Reservation,User
 bp = Blueprint("admin",__name__)
 
 # add 1 admin who can manage travel service
-# admin = Admin(username='Admin',password=bcrypt.generate_password_hash('admin',10))
+# admin = Admin(username='Admin', password=bcrypt.generate_password_hash('admin').decode('utf-8'))
 # db.session.add(admin)
 # db.session.commit()
 
 # admin login
-@app.route('/adminlogin',methods=['GET','POST'])
+@app.route('/adminlogin', methods=['GET', 'POST'])
 def adminlogin():
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
 
-        if username=="" and password=="":
-            flash('PLease fill all the fields')
-            return redirect('adminlogin')
-        else:
-            admins = Admin.query.filter_by(username=username).first()
-            if admins and bcrypt.check_password_hash(admins.password,password):
-                session['admin_id'] = admins.id
-                session['admin_name'] = admins.username
-                flash('Login Successfully','success')
-                return redirect(url_for('dashboard'))
+        # Check if username and password fields are filled
+        if username == "" or password == "":
+            flash('Please fill all the fields', 'danger')
+            return redirect(url_for('adminlogin'))
 
-            else:
-                flash('Invalid Username or Password','danger')
-                return redirect('adminlogin')
-    return render_template('admin/login.html',title="Admin")
+        # Retrieve the admin by username
+        admins = Admin.query.filter_by(username=username).first()
+        
+        # Ensure the admin exists and check the password
+        if admins and bcrypt.check_password_hash(admins.password, password):
+            session['admin_id'] = admins.id
+            session['admin_name'] = admins.username
+            flash('Login Successfully', 'success')
+            return redirect(url_for('dashboard'))
+        else:
+            flash('Invalid Username or Password', 'danger')
+            return redirect(url_for('adminlogin'))
+    
+    return render_template('admin/login.html', title="Admin")
+
 
 # admin logout
 @app.route('/adminlogout')
