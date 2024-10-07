@@ -1,46 +1,45 @@
-# Simple workflow for deploying static content to GitHub Pages
-name: Deploy static content to Pages
+name: CI Workflow
 
 on:
-  # Runs on pushes targeting the default branch
   push:
-    branches: ["master"]
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
+    branches:
+      - main
 
 jobs:
-  # Single deploy job since we're just deploying
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  build:
     runs-on: ubuntu-latest
+    
     steps:
+      # Step to check out the code
       - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/checkout@v2
+
+      # Install dependencies
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
-          # Upload entire repository
+          python-version: '3.x'  # Specify the version you want to use
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt  # Ensure your requirements file is in the root or adjust the path
+
+      # Add the following step to list the Travel directory
+      - name: List Travel directory
+        run: ls -R Travel
+
+      # Your existing steps to run tests or start the application
+      - name: Run tests
+        run: |
+          python -m unittest discover -s tests  # Adjust if you are using a different test framework
+
+      # Step to upload artifacts (if applicable)
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: my-artifact
           path: |
             Travel/Admin
             Travel/User
             Travel/templates
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
