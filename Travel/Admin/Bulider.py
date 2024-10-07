@@ -1,7 +1,7 @@
 from Travel.Admin.models import PackageDeal
 import time
 
-# Bulider method to craete package by admin
+# Bulider method to create package by admin
 class PackageBuilder:
     def __init__(self):
         self.package = PackageDeal()
