@@ -1,0 +1,12 @@
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<div class="alert alert-dismissible fade show mb-2" role="alert"
+    style="font-size: 0.9rem; padding: 0.25rem 0.5rem;">
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }} mb-0" style="margin-bottom: 0;">
+        {{ message }}
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+{% endwith %}

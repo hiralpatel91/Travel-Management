@@ -1,0 +1,53 @@
+{% extends 'layout1.html' %}
+{% block abc %}
+
+<div class="container my-3">
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4 border border-dark rounded p-3">
+            {% from "_formhelpers.html" import render_field %}
+
+            <div class="text-center h1 text-white bg-dark p-2">
+                Add Package
+            </div>
+            {% include '_messages.html' %}
+
+            <form method="post">
+                {{ form.hidden_tag() }}
+
+                <div class="form-group mb-3">
+                    <label for="flight_id">Select Flight:</label>
+                    <select class="form-control" name="flight_id" required>
+                        {% for flight in flights %}
+                        <option value="{{ flight.id }}">{{ flight.airline }} -
+                            ${{ flight.price }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="hotel_id">Select Hotel:</label>
+                    <select class="form-control" name="hotel_id" required>
+                        {% for hotel in hotels %}
+                        <option value="{{ hotel.id }}">{{ hotel.name }} - ${{
+                            hotel.price }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="availability">Available:</label>
+                    {{ form.availability(class='form-check-input') }}
+                </div>
+
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-dark mt-1">Create
+                        Package</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+</div>
+
+{% endblock abc %}

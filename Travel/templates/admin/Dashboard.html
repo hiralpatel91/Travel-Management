@@ -1,0 +1,55 @@
+{% extends 'layout1.html' %}
+{% block abc %}
+
+<div class="container mt-5">
+    <h1 class="text-center">Travel Management</h1>
+    <div class="row mt-4">
+        <div class="col-md-4 mb-4">
+            <a href="/showflight" class="card text-decoration-none">
+                <div class="card-body text-center">
+                    <i class="fas fa-plane fa-2x mb-2"></i>
+                    <h5 class="card-title">Flights</h5>
+                    <p class="card-text">View flights.</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4 mb-4">
+            <a href="/showhotel" class="card text-decoration-none">
+                <div class="card-body text-center">
+                    <i class="fas fa-hotel fa-2x mb-2"></i>
+                    <h5 class="card-title">Hotels</h5>
+                    <p class="card-text">View hotels.</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4 mb-4">
+            <a href="/show_packages" class="card text-decoration-none">
+                <div class="card-body text-center">
+                    <i class="fas fa-gift fa-2x mb-2"></i>
+                    <h5 class="card-title">Packages</h5>
+                    <p class="card-text">View packages.</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4 mb-4">
+            <a href="/show_reservation" class="card text-decoration-none">
+                <div class="card-body text-center">
+                    <i class="fas fa-receipt fa-2x mb-2"></i>
+                    <h5 class="card-title">Reservations</h5>
+                    <p class="card-text">View Reservations.</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4 mb-4">
+            <a href="/show_user" class="card text-decoration-none">
+                <div class="card-body text-center">
+                    <i class="fas fa-user fa-2x mb-2"></i>
+                    <h5 class="card-title">Users</h5>
+                    <p class="card-text">View Users.</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+{% endblock abc %}

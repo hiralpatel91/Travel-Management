@@ -1,0 +1,58 @@
+
+{% extends "layout.html" %}
+
+{% block abc %}
+
+<div class="container my-3">
+    <h2>Packages</h2>
+
+    {% if packages|length==0 %}
+    <div class="alert alert-dark" role="alert">
+        No Records Found! Add Records.
+    </div>
+    {% else %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>NO.</th>
+                <th>Package ID</th>
+                <th>Flight</th>
+                <th>Hotel</th>
+                <th>Total Price</th>
+                <th>Availability</th>
+                <th>Reservation</th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+            {% for package in packages %}
+            <tr>
+                <th scope="row">{{loop.index}}</th>
+                <td>{{ package.package_id }}</td>
+                <td>{{ package.flight.service_id }}</td>
+                <td>{{ package.hotel.service_id }}</td>
+                <td>{{ package.get_total_price() }}$</td>
+                <td>{{ 'Available' if package.availability else 'Not Available'
+                    }}</td>
+                <td>
+                    {% if package.availability %}
+                    <form action="{{ url_for('book') }}" method="post">
+                        <input type="hidden" name="user_id"
+                            value="{{ user_id }}">
+                        <input type="hidden" name="package_deal_id"
+                            value="{{ package.id }}">
+                        <button type="submit"
+                            class="btn btn-dark btn-sm">Reserve Package</button>
+                    </form>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+
+</div>
+
+{% endblock abc %}

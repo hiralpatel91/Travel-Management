@@ -1,0 +1,31 @@
+{% extends 'layout1.html' %}
+
+{% block abc %}
+
+<div class="container my-3">
+  <div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4 border border-dark rounded p-3">
+
+      <div class="text-center h1 text-white bg-dark p-2">Admin Login</div>
+      {% include '_messages.html' %}
+
+      <form method="post">
+        <div class="form-group mb-3">
+          <input type="text" required class="form-control" name="username"
+            placeholder="Admin Name">
+        </div>
+        <div class="form-group mb-3">
+          <input class="form-control" required type="password" name="password"
+            placeholder="Password">
+        </div>
+        <div class="d-flex justify-content-center">
+          <input type="submit" value="Login" class="btn btn-dark mt-1">
+        </div>
+      </form>
+    </div>
+    <div class="col-md-4"></div>
+
+  </div>
+</div>
+{% endblock abc %}

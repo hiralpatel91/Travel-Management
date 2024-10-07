@@ -1,0 +1,64 @@
+
+{% extends "layout1.html" %}
+
+{% block abc %}
+
+<div class="container my-3">
+    <a href="/add_package" class="btn btn-dark btn-sm">Add Package</a>
+</div>
+
+<div class="container my-3">
+    <h2>Packages</h2>
+
+    {% if packages|length==0 %}
+    <div class="alert alert-dark" role="alert">
+        No Records Found! Add Records.
+    </div>
+    {% else %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Package ID</th>
+                <th>Flight</th>
+                <th>Hotel</th>
+                <th>Total Price</th>
+                <th>Availability</th>
+                <th>Actions</th>
+                <th>Remove</th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+            {% for package in packages %}
+            <tr>
+                <th scope="row">{{loop.index}}</th>
+                <td>{{ package.package_id }}</td>
+                <td>{{ package.flight.service_id }}</td>
+                <td>{{ package.hotel.service_id }}</td>
+                <td>{{ package.get_total_price() }}$</td>
+                <td>{{ 'Available' if package.availability else 'Not Available'
+                    }}</td>
+
+                <td>
+                    <a
+                        href="{{ url_for('update_package', package_id=package.id) }}"
+                        class="btn btn-dark btn-sm">Edit</a>
+                </td>
+                <td>
+                    <a
+                        href="{{ url_for('delete_package', package_id=package.id) }}"
+                        type="button"
+                        class="btn btn-dark btn-sm mx-1">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+    {% endif %}
+
+</div>
+
+{% endblock abc %}

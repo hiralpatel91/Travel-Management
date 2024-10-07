@@ -1,0 +1,83 @@
+
+{% extends "layout1.html" %}
+
+{% block abc %}
+
+<div class="container my-3">
+    <h2>Reservations</h2>
+
+    {% if reservations|length==0 %}
+    <div class="alert alert-dark" role="alert">
+        No Records Found! Add Records.
+    </div>
+    {% else %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>User</th>
+                <th>Email</th>
+                <th>Package ID</th>
+                <th>Flight ID</th>
+                <th>Hotel ID</th>
+                <th>Total Price</th>
+                <th>Status</th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+            {% for reservation in reservations %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ reservation.user.username }}</td>
+                <td>{{ reservation.user.email }}</td>
+                <td>{% if reservation.package_deal and
+                    reservation.package_deal.package_id %}
+                    {{ reservation.package_deal.package_id }}
+                    {% else %}
+                    none
+                    {% endif %}
+                </td>
+
+                <td>
+                    {% if reservation.flight and
+                    reservation.flight.service_id %}
+                    {{ reservation.flight.service_id }}
+                    {% else %}
+                    none
+                    {% endif %}
+                </td>
+                <td>
+                    {% if reservation.hotel and
+                    reservation.hotel.service_id %}
+                    {{ reservation.hotel.service_id }}
+                    {% else %}
+                    none
+                    {% endif %}
+                </td>
+                <td>
+                    {% if reservation.package_deal %}
+                    {{ reservation.package_deal.get_total_price() }}$
+                    {% elif reservation.flight %}
+                    {{ reservation.flight.calculate_cost() }}$
+                    {% elif reservation.hotel %}
+                    {{ reservation.hotel.calculate_cost() }}$
+                    {% else %}
+                    none
+                    {% endif %}
+                </td>
+                <td>
+                    {{ reservation.status }}
+                </td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+    {% endif %}
+
+</div>
+
+{% endblock abc %}

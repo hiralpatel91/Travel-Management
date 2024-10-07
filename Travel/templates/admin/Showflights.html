@@ -1,0 +1,68 @@
+{% extends "layout1.html" %}
+
+{% block abc %}
+
+<div class="container my-3">
+    <a href="/addflight" class="btn btn-dark btn-sm">Add Flight</a>
+</div>
+
+<div class="container my-3">
+    <h2>Flights</h2>
+
+    {% if flight|length==0 %}
+    <div class="alert alert-dark" role="alert">
+        No Records Found! Add Records.
+    </div>
+    {% else %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Service ID</th>
+                <th scope="col">From</th>
+                <th scope="col">To</th>
+                <th scope="col">Price</th>
+                <th scope="col">Departure Time</th>
+                <th scope="col">Arrival Time</th>
+                <th scope="col">Airline</th>
+                <th scope="col">Availability</th>
+                <th scope="col"> Update </th>
+                <th scope="col"> Remove </th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+            {% for i in flight %}
+            <tr>
+                <th scope="row">{{loop.index}}</th>
+                <td>{{i.service_id}}</td>
+                <td>{{i.from1}}</td>
+                <td>{{ i.to }}</td>
+                <td>{{ i.calculate_cost() }}$</td>
+
+                <td>{{ i.departure_time.strftime('%Y/%m/%d %I:%M %p') }}</td>
+                <td>{{ i.arrival_time.strftime('%Y/%m/%d %I:%M %p') }}</td>
+                <td>{{ i.airline }}</td>
+                <td>{{ 'Available' if i.availability else 'Not Available'
+                    }}</td>
+
+                <td>
+                    <a href="{{ url_for('update_flight', flight_id=i.id) }}"
+                        class="btn btn-dark btn-sm">Edit</a>
+                </td>
+                <td>
+                    <a href="{{ url_for('delete_flight', flight_id=i.id) }}"
+                        type="button"
+                        class="btn btn-dark btn-sm mx-1">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+    {% endif %}
+
+</div>
+
+{% endblock abc %}

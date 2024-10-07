@@ -1,0 +1,263 @@
+{% extends 'layout.html' %}
+{% block abc %}
+<style>
+    .table td {
+        vertical-align: middle; /* Center align the content */
+    }
+    .table th {
+        text-align: center; /* Center align the header text */
+    }
+</style>
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">User Account</h1>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                {% include '_messages.html' %}
+                <div class="card-body">
+                    <h6 class="card-title">Name: {{ user.username }}</h6>
+                    <p class="card-text">Email: {{ user.email }}</p>
+                    <a href="{{ url_for('update_user',user_id=user.id) }}" class="btn btn-primary">Update Account</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            {% set has_flights = reservations | selectattr('flight', '!=', None)
+            | list %}
+            {% set has_hotels = reservations | selectattr('hotel', '!=', None) |
+            list %}
+            {% set has_packages = reservations | selectattr('package_deal',
+            '!=', None) | list %}
+
+            {% if has_flights %}
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5>Flight Reservations</h5>
+                </div>
+                <div class="card-body table-responsive">
+                    <table
+                        class="table table-sm table-striped table-bordered table-hover">
+                        <thead class="thead">
+                            <tr>
+                                <th>#</th>
+                                <th>Service ID</th>
+                                <th>Airline</th>
+                                <th>Departure</th>
+                                <th>Arrival</th>
+                                <th>City</th>
+                                <th>Price</th>
+                                <th>Reservation Date</th>
+                                <th>Availability</th>
+                                <th>Status</th>
+                                <th>Remove</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for reservation in has_flights %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ reservation.flight.service_id }}(Flight)</td>
+                                <td>{{ reservation.flight.airline }}</td>
+                                <td>{{
+                                    reservation.flight.departure_time.strftime('%Y/%m/%d %I:%M %p')
+                                    }}</td>
+                                <td>{{
+                                    reservation.flight.arrival_time.strftime('%Y/%m/%d %I:%M %p')
+                                    }}</td>
+                                <td>{{ reservation.flight.from1 }}-{{
+                                    reservation.flight.to }}</td>
+                                <td>{{ reservation.flight.calculate_cost()
+                                    }}$</td>
+                                <td>{{
+                                    reservation.reservation_date.strftime('%Y/%m/%d %I:%M %p')
+                                    }}</td>
+                                <td>{{ 'Available' if
+                                    reservation.flight.availability else
+                                    'Not Available' }}</td>
+                                <!-- <td><span class="badge badge-success">Confirmed</span></td> -->
+
+                                <td>
+                                    {% if reservation.status == 'canceled' %}
+                                    <span
+                                        class="badge badge-danger">Canceled</span>
+                                    {% else %}
+                                    <span
+                                        class="badge badge-success">Confirmed</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if reservation.status != 'canceled' %}
+                                    <form
+                                        action="{{ url_for('cancel_reservation', reservation_id=reservation.id) }}"
+                                        method="post">
+                                        <button type="submit"
+                                            class="btn btn-danger btn-sm"
+                                            onclick="return confirm('Are you sure you want to cancel this reservation?');">
+                                            Cancel
+                                        </button>
+                                    </form>
+                                    {% endif %}
+                                </td>
+
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {% endif %}
+
+            {% if has_hotels %}
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5>Hotel Reservations</h5>
+                </div>
+                <div class="card-body table-responsive">
+                    <table
+                        class="table table-sm table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Index</th>
+                                <th>Service Id</th>
+                                <th>Hotel</th>
+                                <th>Location</th>
+                                <th>Price</th>
+                                <th>Reservation Date</th>
+                                <th>Availability</th>
+                                <th>Status</th>
+                                <th>Remove</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for reservation in has_hotels %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{reservation.hotel.service_id}}(Hotel)</td>
+                                <td>{{ reservation.hotel.name }}</td>
+                                <td>{{ reservation.hotel.location }}</td>
+                                <td>{{ reservation.hotel.calculate_cost()
+                                    }}$</td>
+                                <td>{{
+                                    reservation.reservation_date.strftime('%Y/%m/%d %I:%M %p')
+                                    }}</td>
+                                <td>{{ 'Available' if
+                                    reservation.hotel.availability else
+                                    'Not Available' }}</td>
+                                <td>
+                                    {% if reservation.status == 'canceled' %}
+                                    <span
+                                        class="badge badge-danger">Canceled</span>
+                                    {% else %}
+                                    <span
+                                        class="badge badge-success">Confirmed</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if reservation.status != 'canceled' %}
+                                    <form
+                                        action="{{ url_for('cancel_reservation', reservation_id=reservation.id) }}"
+                                        method="post">
+                                        <button type="submit"
+                                            class="btn btn-danger btn-sm"
+                                            onclick="return confirm('Are you sure you want to cancel this reservation?');">
+                                            Cancel
+                                        </button>
+                                    </form>
+                                    {% endif %}
+                                </td>
+
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {% endif %}
+
+            {% if has_packages %}
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5>Package Deal Reservations</h5>
+                </div>
+                <div class="card-body table-responsive">
+                    <table
+                        class="table table-sm table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Index</th>
+                                <th>Service_id</th>
+                                <th>Flight</th>
+                                <th>Hotel</th>
+                                <th>Hotel Location</th>
+                                <th>Price</th>
+                                <th>Reservation Date</th>
+                                <th>Availability</th>
+                                <th>Status</th>
+                                <th>Remove</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for reservation in has_packages %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{reservation.package_deal.service_id}}(Package)</td>
+                                <td>{{ reservation.package_deal.flight.from1
+                                    }}-{{ reservation.package_deal.flight.to
+                                    }}</td>
+                                <td>{{ reservation.package_deal.hotel.name
+                                    }}</td>
+                                <td>{{ reservation.package_deal.hotel.location
+                                    }}</td>
+                                <td>{{ reservation.package_deal.get_total_price()
+                                    }}$</td>
+                                <td>{{
+                                    reservation.reservation_date.strftime('%Y/%m/%d %I:%M %p')
+                                    }}</td>
+                                <td>{{ 'Available' if
+                                    reservation.package_deal.availability else
+                                    'Not Available' }}</td>
+
+                                <td>
+                                    {% if reservation.status == 'canceled' %}
+                                    <span
+                                        class="badge badge-danger">Canceled</span>
+                                    {% else %}
+                                    <span
+                                        class="badge badge-success">Confirmed</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if reservation.status != 'canceled' %}
+                                    <form
+                                        action="{{ url_for('cancel_reservation', reservation_id=reservation.id) }}"
+                                        method="post">
+                                        <button type="submit"
+                                            class="btn btn-danger btn-sm"
+                                            onclick="return confirm('Are you sure you want to cancel this reservation?');">
+                                            Cancel
+                                        </button>
+                                    </form>
+                                    {% endif %}
+                                </td>
+
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {% endif %}
+
+            {% if not (has_flights or has_hotels or has_packages) %}
+            <div class="alert alert-warning" role="alert">
+                No reservations found.
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock abc %}

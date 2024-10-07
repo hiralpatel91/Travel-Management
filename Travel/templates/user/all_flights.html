@@ -1,0 +1,75 @@
+{% extends 'layout.html' %}
+{% block abc %}
+
+<div class="container my-3">
+    <h2>Flights</h2>
+
+    <div class="mb-3 text-end">
+        <form method="get" action="{{ url_for('all_flights') }}"
+            class="d-inline">
+            <input type="text" name="search" placeholder="Search flights..."
+                value="{{ search_query }}" class="form-control d-inline"
+                style="width: auto; display: inline-block;">
+            <button type="submit" class="btn btn-dark btn-sm">Search</button>
+        </form>
+    </div>
+
+    {% if flights|length==0 %}
+    <div class="alert alert-dark" role="alert">
+        No Todos Found! Add Records.
+    </div>
+    {% else %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">No.</th>
+                <th scope="col">Service ID</th>
+                <th scope="col">From</th>
+                <th scope="col">To</th>
+                <th scope="col">Price</th>
+                <th scope="col">Departure Time</th>
+                <th scope="col">Arrival Time</th>
+                <th scope="col">Airline</th>
+                <th scope="col">Availability</th>
+                <th scope="col"> Reservation </th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+            {% for i in flights %}
+            <tr>
+                <th scope="row">{{loop.index}}</th>
+                <td>{{i.service_id}}</td>
+                <td>{{i.from1}}</td>
+                <td>{{ i.to }}</td>
+                <td>{{ i.calculate_cost() }}$</td>
+
+                <td>{{ i.departure_time.strftime('%Y/%m/%d %I:%M %p') }}</td>
+                <td>{{ i.arrival_time.strftime('%Y/%m/%d %I:%M %p') }}</td>
+                <td>{{ i.airline }}</td>
+                <td>{{ 'Available' if i.availability else 'Not Available'
+                    }}</td>
+                <td>
+                    {% if i.availability %}
+
+                    <form action="{{ url_for('book') }}" method="post">
+                        <input type="hidden" name="user_id"
+                            value="{{ user_id }}">
+                        <input type="hidden" name="flight_id"
+                            value="{{ i.id }}">
+                        <button type="submit"
+                            class="btn btn-dark btn-sm">Reserve Flight</button>
+                    </form>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+    {% endif %}
+
+</div>
+
+{% endblock abc %}
