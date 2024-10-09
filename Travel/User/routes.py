@@ -263,8 +263,8 @@ def user_dashboard(user_id):
     user = User.query.get(user_id)
     if not user:
         return jsonify({"error": "User not found"}), 404
-    page = request.args.get('page', 1, type=int)
-    reservations = Reservation.query.filter_by(user_id=user.id).paginate(page=page, per_page=5)
+    
+    reservations = Reservation.query.filter_by(user_id=user.id)
     return render_template('user/user_dashboard.html', user=user, reservations=reservations, title="User Dashboard")
 
 
