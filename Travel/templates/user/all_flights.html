@@ -14,7 +14,7 @@
         </form>
     </div>
 
-    {% if flights|length==0 %}
+    {% if flights.items|length==0 %}
     <div class="alert alert-dark" role="alert">
         No Todos Found! Add Records.
     </div>
@@ -37,9 +37,9 @@
         </thead>
         <tbody>
 
-            {% for i in flights %}
+            {% for i in flights.items %}
             <tr>
-                <th scope="row">{{loop.index}}</th>
+                <th scope="row">{{loop.index + (flights.page-1) * flights.per_page}}</th>
                 <td>{{i.service_id}}</td>
                 <td>{{i.from1}}</td>
                 <td>{{ i.to }}</td>
@@ -68,6 +68,55 @@
         </tbody>
 
     </table>
+    <!-- Pagination -->
+    {% if flights.total > flights.per_page %}
+    <nav aria-label="Page navigation">
+        <div class="d-flex justify-content-center">
+            <ul class="pagination">
+                {% if flights.has_prev %}
+                <li class="page-item">
+                    <a class="page-link"
+                        href="{{ url_for('all_flights', page=flights.prev_num, search=search_query, sort=sort_option) }}">
+                        <i class="fas fa-arrow-left"></i>
+                        <!-- Left arrow icon -->
+                    </a>
+                </li>
+                {% endif %}
+
+                {% for page_num in flights.iter_pages(left_edge=1, right_edge=2,
+                left_current=1, right_current=2) %}
+                {% if page_num %}
+                {% if flights.page == page_num %}
+                <li class="page-item active">
+                    <a class="page-link" href="#">{{ page_num }}</a>
+                </li>
+                {% else %}
+                <li class="page-item">
+                    <a class="page-link"
+                        href="{{ url_for('all_flights', page=page_num, search=search_query, sort=sort_option) }}">{{
+                        page_num }}</a>
+                </li>
+                {% endif %}
+                {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">...</a>
+                </li>
+                {% endif %}
+                {% endfor %}
+
+                {% if flights.has_next %}
+                <li class="page-item">
+                    <a class="page-link"
+                        href="{{ url_for('all_flights', page=flights.next_num, search=search_query, sort=sort_option) }}">
+                        <i class="fas fa-arrow-right"></i>
+                        <!-- Right arrow icon -->
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+    {% endif %}
     {% endif %}
 
 </div>

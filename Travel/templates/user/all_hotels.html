@@ -14,7 +14,7 @@
         </form>
     </div>
 
-    {% if hotel|length==0 %}
+    {% if hotel.items|length==0 %}
     <div class="alert alert-dark" role="alert">
         No Todos Found! Add Records.
     </div>
@@ -34,9 +34,10 @@
         </thead>
         <tbody>
 
-            {% for i in hotel %}
+            {% for i in hotel.items %}
             <tr>
-                <th scope="row">{{loop.index}}</th>
+                <th scope="row">{{loop.index + (hotel.page-1) *
+                    hotel.per_page}}</th>
                 <td>{{i.service_id}}</td>
                 <td>{{i.name}}</td>
                 <td>{{i.location}}</td>
@@ -63,6 +64,56 @@
         </tbody>
 
     </table>
+    <!-- Pagination Logic -->
+    {% if hotel.total > hotel.per_page %}
+    <nav aria-label="Page navigation">
+        <div class="d-flex justify-content-center">
+            <ul class="pagination">
+                {% if hotel.has_prev %}
+                <li class="page-item">
+                    <a class="page-link"
+                        href="{{ url_for('all_hotels', page=hotel.prev_num, search=search_query, sort=sort_option) }}">
+                        <i class="fas fa-arrow-left"></i>
+                        <!-- Font Awesome left arrow icon -->
+                    </a>
+                </li>
+                {% endif %}
+
+                {% for page_num in hotel.iter_pages(left_edge=1, right_edge=2,
+                left_current=1, right_current=2) %}
+                {% if page_num %}
+                {% if hotel.page == page_num %}
+                <li class="page-item active">
+                    <a class="page-link" href="#">{{ page_num }}</a>
+                </li>
+                {% else %}
+                <li class="page-item">
+                    <a class="page-link"
+                        href="{{ url_for('all_hotels', page=page_num, search=search_query, sort=sort_option) }}">{{
+                        page_num }}</a>
+                </li>
+                {% endif %}
+                {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">...</a>
+                </li>
+                {% endif %}
+                {% endfor %}
+
+                {% if hotel.has_next %}
+                <li class="page-item">
+                    <a class="page-link"
+                        href="{{ url_for('all_hotels', page=hotel.next_num, search=search_query, sort=sort_option) }}">
+                        <i class="fas fa-arrow-right"></i>
+                        <!-- Font Awesome right arrow icon -->
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+    {% endif %}
+
     {% endif %}
 
 </div>

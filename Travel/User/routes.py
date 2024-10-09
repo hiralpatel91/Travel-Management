@@ -226,10 +226,11 @@ def cancel_reservation(reservation_id):
 @app.route('/all_flights')
 def all_flights():
     search_query = request.args.get('search', '')
+    page = request.args.get('page', 1, type=int)
     if search_query:
         flights = Flight.query.filter(Flight.airline.ilike(f'%{search_query}%')).all()
     else:
-        flights = Flight.query.all()
+        flights = Flight.query.paginate(page=page, per_page=5)
 
     return render_template('user/all_flights.html',flights=flights,search_query=search_query,title="Flights")
 
@@ -238,16 +239,18 @@ def all_flights():
 @app.route('/all_hotels')
 def all_hotels():
     search_query = request.args.get('search', '')
+    page = request.args.get('page', 1, type=int)
     if search_query:
         hotel = Hotel.query.filter(Hotel.name.ilike(f'%{search_query}%')).all()
     else:
-        hotel = Hotel.query.all()
+        hotel = Hotel.query.paginate(page=page,per_page=5)
     return render_template('user/all_hotels.html',hotel=hotel,title="Hotels")
 
 # see all apckages
 @app.route('/all_packages')
 def all_packages():
-    packages = PackageDeal.query.all()
+    page = request.args.get('page', 1, type=int)
+    packages = PackageDeal.query.paginate(page=page,per_page=5)
     return render_template('user/all_packages.html',packages=packages,title="Packages")
 
 
@@ -260,8 +263,8 @@ def user_dashboard(user_id):
     user = User.query.get(user_id)
     if not user:
         return jsonify({"error": "User not found"}), 404
-
-    reservations = Reservation.query.filter_by(user_id=user.id).all()
+    page = request.args.get('page', 1, type=int)
+    reservations = Reservation.query.filter_by(user_id=user.id).paginate(page=page, per_page=5)
     return render_template('user/user_dashboard.html', user=user, reservations=reservations, title="User Dashboard")
 
 

@@ -93,7 +93,9 @@ def addflight():
 @app.route('/showflight')
 @admin_required
 def showflight():
-    flight = Flight.query.all()
+    page = request.args.get('page', 1, type=int)  # Get the current page number
+    per_page = 5
+    flight = Flight.query.paginate(page=page, per_page=per_page)
     return render_template('admin/Showflights.html',flight=flight,title="Admin")
 
 # update flight
@@ -167,7 +169,9 @@ def addhotel():
 @app.route('/showhotel')
 @admin_required
 def showhotel():
-    hotel = Hotel.query.all()
+    page = request.args.get('page', 1, type=int)  # Get the current page number
+    per_page = 5
+    hotel = Hotel.query.paginate(page=page,per_page=per_page)
     return render_template('admin/showhotels.html',hotel=hotel,title="Admin")
 
 # update hotels
@@ -250,7 +254,9 @@ def add_package():
 @app.route('/show_packages')
 @admin_required
 def show_packages():
-    packages = PackageDeal.query.all()
+    page = request.args.get('page', 1, type=int)  # Get the current page number
+    per_page = 5
+    packages = PackageDeal.query.paginate(page=page,per_page=per_page)
     return render_template('admin/show_packages.html', packages=packages,title="Admin")
 
 # update packages
@@ -305,12 +311,16 @@ def delete_package(package_id):
 @app.route('/show_reservation')
 @admin_required
 def show_reservation():
-    reservations = Reservation.query.all()
+    page = request.args.get('page', 1, type=int)  # Get the current page number
+    per_page = 5
+    reservations = Reservation.query.paginate(page=page,per_page=per_page)
     return render_template('admin/show_reservations.html',reservations=reservations,title="Admin")
 
 # show users
 @app.route('/show_user')
 @admin_required
 def show_user():
-    users = User.query.all()
+    page = request.args.get('page', 1, type=int)  # Get the current page number
+    per_page = 5
+    users = User.query.paginate(page=page,per_page=per_page)
     return render_template('admin/show_user.html',users=users)
