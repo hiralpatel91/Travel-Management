@@ -2,30 +2,35 @@
 {% block abc %}
 
 <div class="container mt-5">
-    <h1 class="text-center">Travel Reservations</h1>
+    <h1 class="text-center mb-4">Travel Reservations</h1>
     <div class="row mt-4">
         <div class="col-md-4 mb-4">
-            <a href="/all_flights" class="card text-decoration-none">
+            <a href="/all_flights" class="card text-decoration-none shadow-sm">
+                <img src="{{ url_for('static', filename='flight-safe.jpg') }}" class="card-img-top" alt="Flights" />
                 <div class="card-body text-center">
                     <h5 class="card-title">Flights</h5>
                     <p class="card-text">View and reserve available flights.</p>
+                    <button class="btn btn-primary">Explore Flights</button>
                 </div>
             </a>
         </div>
         <div class="col-md-4 mb-4">
-            <a href="/all_hotels" class="card text-decoration-none">
+            <a href="/all_hotels" class="card text-decoration-none shadow-sm">
+                <img src="{{ url_for('static', filename='hotel-safe.jpg') }}" class="card-img-top" alt="Hotels" />
                 <div class="card-body text-center">
                     <h5 class="card-title">Hotels</h5>
                     <p class="card-text">View and reserve available hotels.</p>
+                    <button class="btn btn-primary">Explore Hotels</button>
                 </div>
             </a>
         </div>
         <div class="col-md-4 mb-4">
-            <a href="/all_packages" class="card text-decoration-none">
+            <a href="/all_packages" class="card text-decoration-none shadow-sm">
+                <img src="{{ url_for('static', filename='package-safe.jpg') }}" class="card-img-top" alt="Packages" />
                 <div class="card-body text-center">
                     <h5 class="card-title">Packages</h5>
-                    <p class="card-text">View and reserve available
-                        packages.</p>
+                    <p class="card-text">View and reserve available packages.</p>
+                    <button class="btn btn-primary">Explore Packages</button>
                 </div>
             </a>
         </div>
