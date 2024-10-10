@@ -8,7 +8,7 @@
 
 <div class="container my-3">
     <h2>Flights</h2>
-
+    {% include _messages.html %}
     {% if flight.items|length==0 %}
     <div class="alert alert-dark" role="alert">
         No Records Found! Add Records.
@@ -35,7 +35,7 @@
 
             {% for i in flight.items %}
             <tr>
-                <th scope="row">{{ i.id }}</th>
+                <th scope="row">{{ loop.index + (flight.page-1) * flight.per_page }}</th>
                 <td>{{i.service_id}}</td>
                 <td>{{i.from1}}</td>
                 <td>{{ i.to }}</td>

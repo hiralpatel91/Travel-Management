@@ -6,6 +6,22 @@
 <div class="container my-3">
     <h2>Reservations</h2>
 
+
+    <!-- fliter section start -->
+    <div class="mb-3 text-end">
+        <form method="GET" action="{{ url_for('show_reservation') }}" class="d-inline">
+            <div class="form-group d-inline">
+                <select name="status" id="status" class="form-select d-inline" style="width: auto; display: inline-block;" onchange="this.form.submit()">
+                    <option value="">All</option>
+                    <option value="confirmed" {% if request.args.get('status') == 'confirmed' %}selected{% endif %}>Confirmed</option>
+                    <option value="canceled" {% if request.args.get('status') == 'canceled' %}selected{% endif %}>Canceled</option>
+                </select>
+                <button type="submit" class="btn btn-dark ms-2">Filter</button>
+            </div>
+        </form>
+    </div>
+    <!-- end -->
+    
     {% if reservations.items|length==0 %}
     <div class="alert alert-dark" role="alert">
         No Records Found! Add Records.
@@ -81,7 +97,7 @@
         <ul class="pagination justify-content-center">
             {% if reservations.has_prev %}
                 <li class="page-item">
-                    <a class="page-link" href="{{ url_for('show_reservation', page=reservations.prev_num) }}">
+                    <a class="page-link" href="{{ url_for('show_reservation', page=reservations.prev_num,status=request.args.get('status')) }}">
                         <i class="fas fa-arrow-left"></i>
                     </a>
                 </li>
@@ -92,7 +108,7 @@
                     {% if reservations.page == page_num %}
                         <li class="page-item active"><a class="page-link">{{ page_num }}</a></li>
                     {% else %}
-                        <li class="page-item"><a class="page-link" href="{{ url_for('show_reservation', page=page_num) }}">{{ page_num }}</a></li>
+                        <li class="page-item"><a class="page-link" href="{{ url_for('show_reservation', page=page_num,status=request.args.get('status')) }}">{{ page_num }}</a></li>
                     {% endif %}
                 {% else %}
                     <li class="page-item disabled"><span class="page-link">...</span></li>
@@ -101,7 +117,7 @@
 
             {% if reservations.has_next %}
                 <li class="page-item">
-                    <a class="page-link" href="{{ url_for('show_reservation', page=reservations.next_num) }}">
+                    <a class="page-link" href="{{ url_for('show_reservation', page=reservations.next_num,status=request.args.get('status')) }}">
                         <i class="fas fa-arrow-right"></i>
                     </a>
                 </li>

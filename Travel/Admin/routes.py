@@ -313,7 +313,14 @@ def delete_package(package_id):
 def show_reservation():
     page = request.args.get('page', 1, type=int)  # Get the current page number
     per_page = 5
-    reservations = Reservation.query.paginate(page=page,per_page=per_page)
+    status_filter = request.args.get('status')
+    if status_filter == 'confirmed':
+        reservations = Reservation.query.filter_by(status='confirmed').paginate(page=page, per_page=per_page)
+    elif status_filter == 'canceled':
+        reservations = Reservation.query.filter_by(status='canceled').paginate(page=page, per_page=per_page)
+    else:
+        reservations = Reservation.query.paginate(page=page, per_page=per_page)
+
     return render_template('admin/show_reservations.html',reservations=reservations,title="Admin")
 
 # show users
