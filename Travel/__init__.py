@@ -8,8 +8,8 @@ from flask_mail import Mail
 
 
 app = Flask(__name__)
-# app.config["SQLALCHEMY_DATABASE_URI"] = 'postgresql://postgres:root@localhost/travel'
-app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql+pymysql://root:root@localhost/travel'
+app.config["SQLALCHEMY_DATABASE_URI"] = 'postgresql://postgres:root@localhost/travel'
+# app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql+pymysql://root:root@localhost/travel'
 
 app.config["SECRET_KEY"] = "380809898a208a9402023cb802ddede5"
 
