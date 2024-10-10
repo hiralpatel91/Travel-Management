@@ -1,5 +1,4 @@
 
-from email.header import Header
 from Travel import app,mail
 from flask_mail import Message
 
