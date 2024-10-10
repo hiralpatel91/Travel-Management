@@ -1,0 +1,13 @@
+.table td {
+    vertical-align: middle; /* Center align the content */
+}
+.table th {
+    text-align: center; /* Center align the header text */
+    background-color: #f8f9fa; /* Light background for headers */
+}
+.user-image {
+    width: 100px; /* Set desired width */
+    height: 100px; /* Set desired height */
+    border-radius: 50%; /* Make it circular */
+    object-fit: cover; /* Ensure the image covers the area */
+}
