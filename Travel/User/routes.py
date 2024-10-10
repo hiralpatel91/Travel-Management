@@ -228,7 +228,7 @@ def all_flights():
     search_query = request.args.get('search', '')
     page = request.args.get('page', 1, type=int)
     if search_query:
-        flights = Flight.query.filter(Flight.airline.ilike(f'%{search_query}%')).all()
+        flights = Flight.query.filter(Flight.airline.ilike(f'%{search_query}%')).paginate(page=page, per_page=5)
     else:
         flights = Flight.query.paginate(page=page, per_page=5)
 
@@ -241,7 +241,7 @@ def all_hotels():
     search_query = request.args.get('search', '')
     page = request.args.get('page', 1, type=int)
     if search_query:
-        hotel = Hotel.query.filter(Hotel.name.ilike(f'%{search_query}%')).all()
+        hotel = Hotel.query.filter(Hotel.name.ilike(f'%{search_query}%')).paginate(page=page, per_page=5)
     else:
         hotel = Hotel.query.paginate(page=page,per_page=5)
     return render_template('user/all_hotels.html',hotel=hotel,title="Hotels")

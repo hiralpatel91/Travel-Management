@@ -16,7 +16,7 @@
                     <option value="confirmed" {% if request.args.get('status') == 'confirmed' %}selected{% endif %}>Confirmed</option>
                     <option value="canceled" {% if request.args.get('status') == 'canceled' %}selected{% endif %}>Canceled</option>
                 </select>
-                <button type="submit" class="btn btn-dark ms-2">Filter</button>
+                <button type="submit" class="btn btn-dark btn-sm ms-2">Filter</button>
             </div>
         </form>
     </div>
