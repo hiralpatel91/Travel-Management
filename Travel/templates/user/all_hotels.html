@@ -72,7 +72,7 @@
                 {% if hotel.has_prev %}
                 <li class="page-item">
                     <a class="page-link"
-                        href="{{ url_for('all_hotels', page=hotel.prev_num, search=search_query) }}">
+                        href="{{ url_for('all_hotels', page=hotel.prev_num) }}">
                         <i class="fas fa-arrow-left"></i>
                         <!-- Font Awesome left arrow icon -->
                     </a>
@@ -89,7 +89,7 @@
                 {% else %}
                 <li class="page-item">
                     <a class="page-link"
-                        href="{{ url_for('all_hotels', page=page_num, search=search_query) }}">{{
+                        href="{{ url_for('all_hotels', page=page_num) }}">{{
                         page_num }}</a>
                 </li>
                 {% endif %}
@@ -103,7 +103,7 @@
                 {% if hotel.has_next %}
                 <li class="page-item">
                     <a class="page-link"
-                        href="{{ url_for('all_hotels', page=hotel.next_num, search=search_query) }}">
+                        href="{{ url_for('all_hotels', page=hotel.next_num) }}">
                         <i class="fas fa-arrow-right"></i>
                         <!-- Font Awesome right arrow icon -->
                     </a>
