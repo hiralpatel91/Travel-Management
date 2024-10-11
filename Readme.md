@@ -84,7 +84,7 @@ install:
 pip install mysqlclient
 
 still its show error:
-sudo mysql -u root
+sudo mysql -u root -p
 mariadb: SELECT user, host, plugin FROM mysql.user WHERE user = 'root';
 mariadb: ALTER USER 'root'@'localhost' IDENTIFIED VIA mysql_native_password USING PASSWORD('root');
 FLUSH PRIVILEGES;
@@ -110,6 +110,7 @@ Features:
 -Use Built in decoratores for user login 
 -In models Use Inheritance,abstract method, class and static method, magic method.
 -Use Forms for validate data
+-apply Pagination in all pages which contains tables
 
 URLs:
 
