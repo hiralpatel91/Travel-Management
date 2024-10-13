@@ -151,4 +151,4 @@ after reservation you can show your reservation details in user_dashboard & you 
 For Api:
 http://127.0.0.1:5000/reservations
 http://127.0.0.1:5000/reservations/user_id
-http://127.0.0.1:5000/services (You can show all services by this url)
+http://127.0.0.1:5000/service (You can show all services by this url)

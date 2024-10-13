@@ -49,18 +49,3 @@ def create_app():
     app.register_blueprint(bp)
     return app
 
-with app.app_context():
-    # Import your models here to avoid circular imports
-    from Travel.User.models import Flight, Hotel, TravelService
-    
-    # Query existing flights and hotels from the database
-    existing_flights = Flight.query.all()
-    existing_hotels = Hotel.query.all()
-    
-    # Register each flight in the service registry
-    for flight in existing_flights:
-        TravelService._service_registry.append(flight)
-
-    # Register each hotel in the service registry
-    for hotel in existing_hotels:
-        TravelService._service_registry.append(hotel)
