@@ -13,7 +13,7 @@
             <div class="form-group d-inline">
                 <select name="status" id="status" class="form-select d-inline" style="width: auto; display: inline-block;" onchange="this.form.submit()">
                     <option value="">All</option>
-                    <option value="confirmed" {% if request.args.get('status') == 'confirmed' %}selected{% endif %}>Confirmed</option>
+                    <option value="Confirmed" {% if request.args.get('status') == 'Confirmed' %}selected{% endif %}>Confirmed</option>
                     <option value="canceled" {% if request.args.get('status') == 'canceled' %}selected{% endif %}>Canceled</option>
                 </select>
                 <button type="submit" class="btn btn-dark btn-sm ms-2">Filter</button>
