@@ -24,7 +24,7 @@
 
             {% for user in users.items %}
             <tr>
-                <td>{{ loop.index }}</td>
+                <td>{{ loop.index + (users.page-1) * users.per_page }}</td>
                 <td>{{ user.username }}</td>
                 <td>{{ user.email }}</td>
 
